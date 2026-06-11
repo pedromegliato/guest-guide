@@ -1,6 +1,6 @@
 import "server-only";
 
-const DEFAULT_AI_MODEL = "claude-sonnet-4-6";
+const DEFAULT_AI_MODEL = "gpt-5.4-mini";
 
 export class MissingEnvError extends Error {
   constructor(variableName: string) {
@@ -27,9 +27,9 @@ export function databaseEnv(): DatabaseEnv {
 }
 
 export function aiEnv(): AiEnv {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
-    throw new MissingEnvError("ANTHROPIC_API_KEY");
+    throw new MissingEnvError("OPENAI_API_KEY");
   }
   const model = process.env.AI_MODEL?.trim();
   return { apiKey, model: model || DEFAULT_AI_MODEL };

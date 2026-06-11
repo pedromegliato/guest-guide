@@ -1,4 +1,4 @@
-# Arquitetura
+﻿# Arquitetura
 
 O projeto segue **Clean Architecture** adaptada ao Next.js App Router, combinada com o padrão de **Data Access Layer** recomendado pela documentação oficial do Next.js. O objetivo é manter as regras de negócio independentes de framework, banco e provedor de IA — cada um desses é um detalhe substituível atrás de uma interface.
 
@@ -28,7 +28,7 @@ O projeto segue **Clean Architecture** adaptada ao Next.js App Router, combinada
 | `src/domain` | Tipos do negócio (`Property`, `ExperienceGuide`), schemas Zod, estação do ano, labels. Puro e isomórfico — pode ser importado por Client Components. |
 | `src/application/ports` | Interfaces (`PropertyRepository`, `ExperienceGuideRepository`, `ExperienceGuideGenerator`). |
 | `src/application/use-cases` | Regras de orquestração. `GetOrGenerateExperienceGuide` decide entre guia persistido e nova geração, com deduplicação de gerações concorrentes. |
-| `src/infrastructure` | Implementações: repositórios Prisma, adapter do LLM (Vercel AI SDK + Anthropic), prompts, acesso a `process.env`. Todos os módulos importam `server-only`, impedindo vazamento para o bundle do cliente. |
+| `src/infrastructure` | Implementações: repositórios Prisma, adapter do LLM (Vercel AI SDK + OpenAI), prompts, acesso a `process.env`. Todos os módulos importam `server-only`, impedindo vazamento para o bundle do cliente. |
 | `src/di` | Composition root: instancia adapters e injeta nos casos de uso. Único lugar que conhece implementações concretas. |
 | `src/components` | Atomic Design: `atoms` → `molecules` → `organisms` → `templates`. Server Components por padrão; `"use client"` apenas nas folhas interativas (galeria, chat, guia de experiências, copiar senha). |
 | `src/app` | Rotas finas: páginas resolvem params, chamam o caso de uso/repositório e delegam a renderização aos templates. Route handlers cuidam apenas de HTTP (status, validação de entrada, streaming). |

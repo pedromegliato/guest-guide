@@ -1,4 +1,4 @@
-# Guia do Hóspede
+﻿# Guia do Hóspede
 
 Aplicação web que entrega ao hóspede tudo o que ele precisa durante a estadia em um imóvel de temporada: acesso por link único (`/FLN001`), informações operacionais (Wi-Fi, acesso, estacionamento, regras), um **Guia de Experiências da região gerado por IA** e um **assistente virtual em tempo real** que conhece o imóvel.
 
@@ -12,14 +12,14 @@ Aplicação web que entrega ao hóspede tudo o que ele precisa durante a estadia
 
 ## Stack
 
-Next.js 16 (App Router) · TypeScript estrito · Tailwind CSS 4 · PostgreSQL 17 + Prisma 7 · Vercel AI SDK + Anthropic Claude · Vitest + Testing Library · Docker.
+Next.js 16 (App Router) · TypeScript estrito · Tailwind CSS 4 · PostgreSQL 17 + Prisma 7 · Vercel AI SDK + OpenAI · Vitest + Testing Library · Docker.
 
 ## Como rodar
 
 ### Com Docker (um comando)
 
 ```bash
-cp .env.example .env   # preencha ANTHROPIC_API_KEY
+cp .env.example .env   # preencha OPENAI_API_KEY
 docker compose up -d
 ```
 
@@ -28,7 +28,7 @@ Sobe Postgres, aplica migrações + seed (FLN001 e GRM001) e inicia o app em [ht
 ### Desenvolvimento local
 
 ```bash
-cp .env.example .env   # preencha ANTHROPIC_API_KEY
+cp .env.example .env   # preencha OPENAI_API_KEY
 docker compose up -d db
 pnpm install
 pnpm db:migrate
@@ -41,8 +41,8 @@ pnpm dev
 | Variável | Obrigatória | Descrição |
 | --- | --- | --- |
 | `DATABASE_URL` | sim | Conexão Postgres. |
-| `ANTHROPIC_API_KEY` | sim | Chave da API da Anthropic (guia de experiências e chat). |
-| `AI_MODEL` | não | Modelo a usar (padrão `claude-sonnet-4-6`). |
+| `OPENAI_API_KEY` | sim | Chave da API da OpenAI (guia de experiências e chat). |
+| `AI_MODEL` | não | Modelo a usar (padrão `gpt-5.4-mini`). |
 
 ## Testes
 
