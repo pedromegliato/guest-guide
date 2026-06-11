@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Property {
+  id                      String           @id @default(cuid())
+  code                    String           @unique
+  name                    String
+  propertyType            String
+  bedroomQuantity         Int
+  bathroomQuantity        Int
+  guestCapacity           Int
+  street                  String
+  number                  String
+  complement              String?
+  neighborhood            String
+  city                    String
+  state                   String
+  postalCode              String
+  wifiNetwork             String
+  wifiPassword            String
+  isSelfCheckin           Boolean
+  accessType              String
+  accessInstructions      String
+  accessPassword          String?
+  hasParkingSpot          Boolean
+  parkingSpotIdentifier   String?
+  parkingSpotInstructions String?
+  checkInTime             String
+  checkOutTime            String
+  allowsPets              Boolean
+  allowsSmoking           Boolean
+  suitableForChildren     Boolean
+  suitableForBabies       Boolean
+  allowsEvents            Boolean
+  amenities               String[]
+  images                  String[]
+  hostName                String
+  hostPhone               String
+  createdAt               DateTime         @default(now())
+  updatedAt               DateTime         @updatedAt
+  experienceGuide         ExperienceGuide?
+}
+
+model ExperienceGuide {
+  id          String   @id @default(cuid())
+  propertyId  String   @unique
+  season      String
+  content     Json
+  generatedAt DateTime @default(now())
+  property    Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+}
