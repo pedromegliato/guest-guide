@@ -3,6 +3,7 @@
 import { ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
+import { Button } from "@/components/atoms/button";
 import { normalizePropertyCode } from "@/domain/property";
 
 export function CodeSearchForm() {
@@ -33,14 +34,10 @@ export function CodeSearchForm() {
         spellCheck={false}
         className="min-w-0 flex-1 bg-transparent px-3 py-2 text-sm uppercase text-stone-900 placeholder:normal-case placeholder:text-stone-400 focus:outline-none"
       />
-      <button
-        type="submit"
-        disabled={code.trim().length === 0}
-        className="inline-flex items-center gap-1.5 rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-700 disabled:cursor-not-allowed disabled:bg-stone-300"
-      >
+      <Button type="submit" disabled={code.trim().length === 0}>
         Acessar
         <ArrowRight aria-hidden className="size-4" />
-      </button>
+      </Button>
     </form>
   );
 }

@@ -60,16 +60,18 @@ export function PhotoGallery({ images, alt }: PhotoGalleryProps) {
           <button
             type="button"
             onClick={() => scrollToIndex(activeIndex - 1)}
+            disabled={activeIndex === 0}
             aria-label="Foto anterior"
-            className="absolute left-3 top-1/2 hidden -translate-y-1/2 rounded-full bg-white/85 p-2 text-stone-700 shadow transition-opacity hover:bg-white md:block"
+            className="absolute left-3 top-1/2 hidden -translate-y-1/2 rounded-full bg-white/85 p-2 text-stone-700 shadow transition-opacity hover:bg-white disabled:opacity-40 disabled:hover:bg-white/85 md:block"
           >
             <ChevronLeft aria-hidden className="size-5" />
           </button>
           <button
             type="button"
             onClick={() => scrollToIndex(activeIndex + 1)}
+            disabled={activeIndex === images.length - 1}
             aria-label="Próxima foto"
-            className="absolute right-3 top-1/2 hidden -translate-y-1/2 rounded-full bg-white/85 p-2 text-stone-700 shadow transition-opacity hover:bg-white md:block"
+            className="absolute right-3 top-1/2 hidden -translate-y-1/2 rounded-full bg-white/85 p-2 text-stone-700 shadow transition-opacity hover:bg-white disabled:opacity-40 disabled:hover:bg-white/85 md:block"
           >
             <ChevronRight aria-hidden className="size-5" />
           </button>

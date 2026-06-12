@@ -4,6 +4,7 @@ import { Card } from "@/components/atoms/card";
 import { SectionTitle } from "@/components/atoms/section-title";
 import { CopyField } from "@/components/molecules/copy-field";
 import { InfoRow } from "@/components/molecules/info-row";
+import { GUIDE_SECTION_IDS } from "@/components/organisms/guide-navigation";
 import { accessTypeLabel } from "@/domain/labels";
 import type { OperationalInfo } from "@/domain/property";
 
@@ -13,7 +14,7 @@ interface AccessSectionProps {
 
 export function AccessSection({ operational }: AccessSectionProps) {
   return (
-    <Card>
+    <Card id={GUIDE_SECTION_IDS.access} className="scroll-mt-24">
       <SectionTitle icon={KeyRound}>Acesso ao imóvel</SectionTitle>
       <div className="mt-4 grid gap-3">
         <div className="grid gap-2.5 sm:grid-cols-2">

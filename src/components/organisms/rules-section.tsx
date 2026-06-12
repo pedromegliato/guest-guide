@@ -12,31 +12,17 @@ export function RulesSection({ rules }: RulesSectionProps) {
   return (
     <Card>
       <SectionTitle icon={ScrollText}>Regras da estadia</SectionTitle>
-      <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
-        <div className="flex items-center gap-3 rounded-xl bg-brand-50 px-3.5 py-3 ring-1 ring-brand-100">
-          <Clock aria-hidden className="size-5 shrink-0 text-brand-600" />
-          <div>
-            <p className="text-xs font-medium uppercase tracking-wide text-brand-700">
-              Check-in
-            </p>
-            <p className="text-base font-semibold text-stone-900">
-              a partir das {rules.checkInTime}
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3 rounded-xl bg-brand-50 px-3.5 py-3 ring-1 ring-brand-100">
-          <Clock aria-hidden className="size-5 shrink-0 text-brand-600" />
-          <div>
-            <p className="text-xs font-medium uppercase tracking-wide text-brand-700">
-              Check-out
-            </p>
-            <p className="text-base font-semibold text-stone-900">
-              até as {rules.checkOutTime}
-            </p>
-          </div>
-        </div>
+      <div className="mt-4 flex flex-wrap gap-2">
+        <p className="flex items-center gap-2 rounded-full bg-brand-100 px-3.5 py-2 text-[13px] font-semibold text-brand-800">
+          <Clock aria-hidden className="size-4 shrink-0" />
+          Check-in a partir das {rules.checkInTime}
+        </p>
+        <p className="flex items-center gap-2 rounded-full bg-brand-100 px-3.5 py-2 text-[13px] font-semibold text-brand-800">
+          <Clock aria-hidden className="size-4 shrink-0" />
+          Check-out até as {rules.checkOutTime}
+        </p>
       </div>
-      <div className="mt-3 grid gap-2.5 sm:grid-cols-2">
+      <div className="mt-3 flex flex-wrap gap-2">
         <PolicyItem label="Animais de estimação" allowed={rules.allowsPets} />
         <PolicyItem label="Fumar no imóvel" allowed={rules.allowsSmoking} />
         <PolicyItem label="Festas e eventos" allowed={rules.allowsEvents} />

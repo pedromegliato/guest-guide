@@ -18,20 +18,17 @@ export async function POST(
   { params }: RouteParams,
 ): Promise<Response> {
   const { code } = await params;
-  const property = await getPropertyRepository().findByCode(
-    normalizePropertyCode(code),
-  );
+  const [property, body] = await Promise.all([
+    getPropertyRepository().findByCode(normalizePropertyCode(code)),
+    request.json().catch(() => undefined) as Promise<unknown>,
+  ]);
   if (!property) {
     return Response.json(
       { error: "property_not_found", message: "Imóvel não encontrado." },
       { status: 404 },
     );
   }
-
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
+  if (body === undefined) {
     return Response.json(
       { error: "invalid_body", message: "Corpo da requisição inválido." },
       { status: 400 },

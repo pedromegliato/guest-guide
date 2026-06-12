@@ -2,8 +2,14 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { ExperienceGuideSection } from "@/components/organisms/experience-guide-section";
+import type { PlaceRoute } from "@/components/molecules/place-card";
 import type { ExperienceGuide } from "@/domain/experience-guide";
 import { buildGuideContent } from "@/test/fixtures";
+
+const DEFAULT_ROUTE: PlaceRoute = {
+  origin: "Rua Lauro Linhares, 589 — Trindade",
+  destinationContext: "Florianópolis - SC",
+};
 
 function buildGuide(): ExperienceGuide {
   return {
@@ -30,7 +36,7 @@ describe("ExperienceGuideSection", () => {
       vi.fn().mockReturnValue(new Promise(() => undefined)),
     );
 
-    render(<ExperienceGuideSection code="FLN001" />);
+    render(<ExperienceGuideSection code="FLN001" route={DEFAULT_ROUTE} />);
 
     expect(
       screen.getByText(/Preparando recomendações personalizadas/i),
@@ -43,7 +49,7 @@ describe("ExperienceGuideSection", () => {
       json: async () => buildGuide(),
     });
 
-    render(<ExperienceGuideSection code="FLN001" />);
+    render(<ExperienceGuideSection code="FLN001" route={DEFAULT_ROUTE} />);
 
     expect(await screen.findByText("Box 32")).toBeInTheDocument();
     expect(screen.getByText("Praia da Joaquina")).toBeInTheDocument();
@@ -63,7 +69,7 @@ describe("ExperienceGuideSection", () => {
       } as Response);
     vi.stubGlobal("fetch", fetchMock);
 
-    render(<ExperienceGuideSection code="FLN001" />);
+    render(<ExperienceGuideSection code="FLN001" route={DEFAULT_ROUTE} />);
 
     expect(
       await screen.findByText("Falha temporária na geração."),

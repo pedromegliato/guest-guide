@@ -26,12 +26,12 @@ export function CopyField({ label, value }: CopyFieldProps) {
   }
 
   return (
-    <div className="flex items-center justify-between gap-3 rounded-xl bg-stone-50 px-3.5 py-2.5 ring-1 ring-stone-200">
+    <div className="flex items-center justify-between gap-3 rounded-xl bg-stone-100 px-3.5 py-3">
       <div className="min-w-0">
-        <p className="text-xs font-medium uppercase tracking-wide text-stone-500">
+        <p className="text-[10.5px] font-semibold uppercase tracking-wide text-stone-500">
           {label}
         </p>
-        <p className="truncate font-mono text-sm font-semibold text-stone-900">
+        <p className="truncate font-mono text-sm font-bold text-stone-900">
           {value}
         </p>
       </div>
@@ -39,13 +39,14 @@ export function CopyField({ label, value }: CopyFieldProps) {
         type="button"
         onClick={copy}
         aria-label={copied ? `${label} copiado` : `Copiar ${label}`}
-        className="grid size-9 shrink-0 place-items-center rounded-lg text-stone-500 transition-colors hover:bg-stone-200 hover:text-stone-700"
+        className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-brand-800 px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-brand-900"
       >
         {copied ? (
-          <Check aria-hidden className="size-4 text-emerald-600" />
+          <Check aria-hidden className="size-3.5" />
         ) : (
-          <Copy aria-hidden className="size-4" />
+          <Copy aria-hidden className="size-3.5" />
         )}
+        {copied ? "Copiado" : "Copiar"}
       </button>
     </div>
   );

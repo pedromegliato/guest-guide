@@ -68,5 +68,9 @@ export function formatFullAddress(address: Address): string {
 }
 
 export function formatLocation(address: Address): string {
-  return `${address.neighborhood}, ${address.city} - ${address.state}`;
+  return `${address.neighborhood}, ${formatCityState(address)}`;
+}
+
+export function formatCityState(address: Address): string {
+  return `${address.city} - ${address.state}`;
 }

@@ -15,9 +15,29 @@
   --color-brand-800: #224f4e;
   --color-brand-900: #1f4242;
   --color-brand-950: #0d2a2a;
+
+  --color-gold-50: #fdf6e8;
+  --color-gold-100: #faedd2;
+  --color-gold-200: #f0ddb4;
+  --color-gold-300: #e7c98a;
+  --color-gold-400: #d9a441;
+  --color-gold-500: #c08c2c;
+  --color-gold-700: #8a6420;
+  --color-gold-900: #6b5b35;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background-color: var(--color-stone-50);
   color: var(--color-stone-900);
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
 }

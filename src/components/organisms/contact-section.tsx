@@ -1,12 +1,16 @@
 import { MapPin, MessageCircle, Phone, UserRound } from "lucide-react";
+import { buttonClasses } from "@/components/atoms/button";
 import { Card } from "@/components/atoms/card";
 import { SectionTitle } from "@/components/atoms/section-title";
 import { InfoRow } from "@/components/molecules/info-row";
+import { GUIDE_SECTION_IDS } from "@/components/organisms/guide-navigation";
 import {
   formatFullAddress,
+  formatLocation,
   type Address,
   type Host,
 } from "@/domain/property";
+import { buildMapsSearchUrl } from "@/lib/maps";
 
 interface ContactSectionProps {
   host: Host;
@@ -19,12 +23,12 @@ function digitsOnly(phone: string): string {
 
 export function ContactSection({ host, address }: ContactSectionProps) {
   const fullAddress = formatFullAddress(address);
-  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    `${address.street}, ${address.number}, ${address.neighborhood}, ${address.city} - ${address.state}`,
-  )}`;
+  const mapsUrl = buildMapsSearchUrl(
+    `${address.street}, ${address.number}, ${formatLocation(address)}`,
+  );
 
   return (
-    <Card>
+    <Card id={GUIDE_SECTION_IDS.contact} className="scroll-mt-24">
       <SectionTitle icon={UserRound}>Contato e endereço</SectionTitle>
       <div className="mt-4 grid gap-4">
         <InfoRow icon={UserRound} label="Anfitrião">
@@ -55,7 +59,7 @@ export function ContactSection({ host, address }: ContactSectionProps) {
           href={`https://wa.me/${digitsOnly(host.phone)}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-emerald-700"
+          className={buttonClasses("primary")}
         >
           <MessageCircle aria-hidden className="size-4" />
           Falar no WhatsApp
