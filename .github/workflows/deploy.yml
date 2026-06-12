@@ -1,0 +1,71 @@
+name: CI e Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+
+  deploy:
+    needs: ci
+    runs-on: ubuntu-latest
+    environment: production
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build das imagens
+        run: |
+          docker build --target migrator -t guest-guide-migrate:latest .
+          docker build --target runner -t guest-guide:latest .
+          docker save guest-guide:latest guest-guide-migrate:latest | gzip > guest-guide-images.tar.gz
+
+      - name: Enviar artefatos para o servidor
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          source: "guest-guide-images.tar.gz,deploy/docker-compose.prod.yml,deploy/Caddyfile"
+          target: /opt/guest-guide
+          strip_components: 0
+
+      - name: Subir aplicação
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            set -e
+            cd /opt/guest-guide
+            mv -f deploy/docker-compose.prod.yml docker-compose.yml
+            mv -f deploy/Caddyfile Caddyfile
+            rmdir deploy || true
+            umask 077
+            cat > .env <<'EOF'
+            POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+            OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
+            AI_MODEL=${{ secrets.AI_MODEL }}
+            EOF
+            docker load < guest-guide-images.tar.gz
+            docker compose up -d --remove-orphans
+            docker image prune -f
+            rm -f guest-guide-images.tar.gz
