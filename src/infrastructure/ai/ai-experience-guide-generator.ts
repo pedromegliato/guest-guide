@@ -14,6 +14,7 @@ export function createAiExperienceGuideGenerator(
   return async (property, season) => {
     const { object } = await generateObject({
       model: resolveModel(),
+      temperature: 0.2,
       schema: experienceGuideContentSchema,
       system: buildExperienceGuideSystemPrompt(),
       prompt: buildExperienceGuideUserPrompt(property, season),

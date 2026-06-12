@@ -53,6 +53,7 @@ export async function POST(
 
   const result = streamText({
     model: resolveLanguageModel(),
+    temperature: 0.2,
     system: buildChatSystemPrompt(property, guide?.content ?? null),
     messages: await convertToModelMessages(
       messages.slice(-MAX_HISTORY_MESSAGES),
