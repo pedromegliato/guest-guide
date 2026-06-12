@@ -9,6 +9,8 @@ RUN pnpm install --frozen-lockfile --ignore-scripts
 FROM deps AS migrator
 COPY prisma.config.ts tsconfig.json ./
 COPY prisma ./prisma
+ARG DATABASE_URL=postgresql://build:build@localhost:5432/build
+ENV DATABASE_URL=$DATABASE_URL
 RUN pnpm prisma generate
 CMD ["sh", "-c", "pnpm prisma migrate deploy && pnpm tsx prisma/seed.ts"]
 
